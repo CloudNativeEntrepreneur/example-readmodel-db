@@ -1,0 +1,42 @@
+apiVersion: schemas.schemahero.io/v1alpha4
+kind: Table
+metadata:
+  name: messages
+spec:
+  database: {{ .Values.psql.name }}
+  name: messages
+  schema:
+    postgres:
+
+      primaryKey:
+      - id
+
+      indexes:
+        - columns: [publicAddress]
+          isUnique: false
+
+      columns:
+
+      # pk id for individual record.
+      - name: id
+        type: uuid
+        constraints:
+          notNull: true
+
+      # User's public Address
+      - name: publicAddress
+        type: text
+        constraints:
+          notNull: true
+      
+      - name: message
+        type: text
+        constraints:
+          notNull: true
+
+      # Record Created At
+      - name: sentAt
+        type: timestamp
+        constraints:
+          notNull: true
+

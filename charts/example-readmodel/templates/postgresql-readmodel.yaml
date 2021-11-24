@@ -1,0 +1,46 @@
+apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  name: {{ .Values.psql.name }}
+spec:
+  teamId: example
+
+  podAnnotations:
+    sidecar.istio.io/inject: {{ .Values.psql.istio.injection | quote }}
+
+  numberOfInstances: {{ .Values.psql.numberOfInstances }}
+
+  users:
+    admin:  # database owner
+    - superuser
+    - createdb
+    readmodel: []
+
+  # format:
+  # `${databasename}: ${owner}` (matches user ^)
+  databases:
+    readmodel: readmodel
+
+  enableShmVolume: {{ .Values.psql.enableShmVolume }}
+
+  enableLogicalBackup: {{ .Values.psql.enableLogicalBackup }}
+
+  enableConnectionPooler: {{ .Values.psql.enableConnectionPooler }}
+  enableReplicaConnectionPooler: {{ .Values.psql.enableReplicaConnectionPooler }}
+
+{{- if .Values.enableConnectionPooler }}
+  connectionPooler:
+    maxDBConnections: {{ .Values.psql.connectionPooler.maxDBConnections }}
+    numberOfInstances: {{ .Values.psql.connectionPooler.numberOfInstances }}
+{{- end }}
+
+  postgresql:
+    version: "13"
+    parameters:
+{{ toYaml .Values.psql.parameters | indent 6 }}
+
+  resources:
+{{ toYaml .Values.psql.resources | indent 4 }}
+
+  volume:
+    size: {{ .Values.psql.volume.size }}

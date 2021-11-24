@@ -1,0 +1,30 @@
+apiVersion: databases.schemahero.io/v1alpha4
+kind: Database
+metadata:
+  name: {{ .Values.psql.name }}
+spec:
+  immediateDeploy: true
+  template:
+    metadata:
+      labels:
+        sidecar.istio.io/inject: "false"
+  connection:
+    postgres:
+      host:
+        value: {{ .Values.psql.name }}.{{ .Release.Namespace }}.svc.cluster.local
+      user:
+        valueFrom:
+          secretKeyRef:
+            name: {{ .Values.psql.user }}.{{ .Values.psql.name }}.credentials.postgresql.acid.zalan.do
+            key: username
+      password:
+        valueFrom:
+          secretKeyRef:
+            name: {{ .Values.psql.user }}.{{ .Values.psql.name }}.credentials.postgresql.acid.zalan.do
+            key: password
+      port:
+        value: "5432"
+      dbname:
+        value: {{ .Values.psql.database }}
+      # sslmode:
+      #   value: disable
