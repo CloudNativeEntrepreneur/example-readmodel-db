@@ -4,4 +4,4 @@ Auth Example's Hasura's Read Model - PostgreSQL via Zalando PostgreSQL Operator 
 
 This database and it's schema are an example in this bigger [project](https://github.com/CloudNativeEntrepreneur/web3auth-meta).
 
-Hasura generates graphql API's based on a DB schema, so you can define your database schema here, and connect it to hasura, and you'll have graphql API for it.
+Hasura generates graphql API's based on a DB schema, so you can define your database schema here, and connect it to hasura, and you'll have a graphql API for it.
