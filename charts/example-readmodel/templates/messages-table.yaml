@@ -12,7 +12,8 @@ spec:
       - id
 
       indexes:
-        - columns: [publicAddress]
+        - columns: 
+          - address
           isUnique: false
 
       columns:
@@ -24,7 +25,7 @@ spec:
           notNull: true
 
       # User's public Address
-      - name: publicAddress
+      - name: address
         type: text
         constraints:
           notNull: true
