@@ -35,17 +35,15 @@ spec:
         constraints:
           notNull: true
 
-      # Record Created At
       - name: completed
         type: boolean
-        constraints:
-          notNull: true
-      
-      - name: createdAt
-        type: timestamp
         constraints:
           notNull: true
       
       - name: completedAt
         type: timestamp
 
+      - name: createdAt
+        type: timestamp
+        constraints:
+          notNull: true
