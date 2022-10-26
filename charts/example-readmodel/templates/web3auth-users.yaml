@@ -1,0 +1,28 @@
+apiVersion: schemas.schemahero.io/v1alpha4
+kind: Table
+metadata:
+  name: web3auth-users
+spec:
+  database: {{ .Values.psql.name }}
+  name: web3auth_users
+  schema:
+    postgres:
+
+      primaryKey:
+      - address
+
+      indexes:
+      - columns: 
+        - address
+        isUnique: true
+
+      columns:
+
+      # User's public Address
+      - name: address
+        type: text
+        constraints:
+          notNull: true
+      
+      - name: username
+        type: text
