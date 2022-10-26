@@ -11,6 +11,14 @@ spec:
       primaryKey:
       - id
 
+      foreignKeys:
+      - columns:
+          - address
+        references:
+          table: web3auth_users
+          columns:
+            - address
+
       indexes:
         - columns: 
           - address
