@@ -1,0 +1,6 @@
+# Helm chart.yaml
+apiVersion: v1
+appVersion: "1.0"
+description: A Preview of Example Readmodel's DB's helm chart at ../../helm
+name: example-readmodel-db-preview
+version: v0.0.0-dev

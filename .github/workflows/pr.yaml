@@ -1,0 +1,50 @@
+name: pr
+
+on:
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  helm-quality:
+    uses: CloudNativeEntrepreneur/actions/.github/workflows/helm-quality.yaml@main
+    secrets: inherit
+    with:
+      helm_path: helm
+  
+  preview-helm-quality:
+    uses: CloudNativeEntrepreneur/actions/.github/workflows/helm-quality.yaml@main
+    secrets: inherit
+    with:
+      helm_path: preview/helm
+
+  promote-helm-quality:
+    uses: CloudNativeEntrepreneur/actions/.github/workflows/helm-quality.yaml@main
+    secrets: inherit
+    with:
+      helm_path: promote/helm
+
+  preview:
+    needs:
+    - helm-quality
+    - preview-helm-quality
+    - promote-helm-quality
+    uses: CloudNativeEntrepreneur/actions/.github/workflows/gitops-preview.yaml@main
+    secrets: inherit
+    with:
+      environment_repository: CloudNativeEntrepreneur/example-preview-envs
+      project: example-preview-envs
+      comment: |
+        Your preview environment has been published! :rocket:
+
+        It may take a few minutes to spin up.
+
+        You can view the Preview contents with `kubectl`:
+
+        ```bash
+        kubectl get postgresqls -n ${{ github.event.repository.name }}-pr-${{ github.event.pull_request.number }}-preview
+        kubectl get databases.databases.schemahero.io -n ${{ github.event.repository.name }}-pr-${{ github.event.pull_request.number }}-preview
+        kubectl get tables.schemas.schemahero.io -n ${{ github.event.repository.name }}-pr-${{ github.event.pull_request.number }}-preview
+        ```
