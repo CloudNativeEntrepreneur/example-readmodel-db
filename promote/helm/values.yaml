@@ -1,0 +1,4 @@
+name: example-readmodel-db
+version: HEAD
+project: dev
+repository: CloudNativeEntrepreneur/example-readmodel-db
